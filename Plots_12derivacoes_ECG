@@ -1,0 +1,41 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Carregar arquivo npz
+data = np.load("dataset_ecg_v1.3.1(0.67-40).npz")
+
+# Extrair os dados
+x_train = data["x_train"]
+
+print("Formato do x_train:", x_train.shape)
+
+# Selecionar o primeiro registro DI
+ecg_sample = x_train[0]  # shape esperado: (12, T)
+
+# Criar vetor de tempo
+fs = 500  
+t = np.arange(ecg_sample.shape[1]) / fs
+
+# Nomes das 12 derivações padrão
+nomes_derivacoes = [
+    "DI", "DII", "DIII",
+    "aVR", "aVL", "aVF",
+    "V1", "V2", "V3", "V4", "V5", "V6"
+]
+
+# Plotar
+fig, axes = plt.subplots(6, 2, figsize=(12, 10), sharex=True)
+axes = axes.flatten()
+
+for i in range(12):
+    axes[i].plot(t, ecg_sample[i], color='blue')
+    axes[i].set_title(nomes_derivacoes[i])
+    axes[i].set_ylabel("mV")
+    axes[i].grid(True)
+
+axes[-1].set_xlabel("Tempo (s)")
+plt.tight_layout()
+plt.show()
+
+plt.savefig("resultado.png", dpi=300)  # salva a figura na pasta do projeto
+
