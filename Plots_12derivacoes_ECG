@@ -37,5 +37,4 @@ axes[-1].set_xlabel("Tempo (s)")
 plt.tight_layout()
 plt.show()
 
-plt.savefig("resultado.png", dpi=300)  # salva a figura na pasta do projeto
 
